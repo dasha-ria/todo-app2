@@ -1,5 +1,9 @@
 .flex {
   display: flex;
   justify-content: space-between;
-  width: 15rem;
+  width: 20rem;
+}
+
+ul {
+  list-style: none;
 }

@@ -1,20 +1,50 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./index.css";
 
 function App() {
-  const [tasks, setTasks] = useState([]);
-
+  const [tasks, setTasks] = useState(() => {
+    let _tasks = localStorage.getItem("tasks");
+    if (_tasks === null) {
+      return [];
+    } else {
+      return JSON.parse(_tasks);
+    }
+  });
   const [input, setInput] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setTasks([input, ...tasks]);
+    const item = {
+      id: new Date().getTime().toString(),
+      input,
+      status: "unfinished",
+    };
+    setTasks([item, ...tasks]);
     setInput("");
   };
 
   const removeTask = (index) => {
     const newList = tasks.filter((_, taskIndex) => taskIndex !== index);
     setTasks(newList);
+  };
+
+  useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }, [tasks]);
+
+  const toggleStatus = (taskId) => {
+    const newStatus = tasks.map((indTask) => {
+      if (indTask.id === taskId) {
+        if (indTask.status === "unfinished") {
+          indTask.status = "finished";
+        } else {
+          indTask.status = "unfinished";
+        }
+      }
+      return indTask;
+    });
+    setTasks(newStatus);
+    console.log(newStatus);
   };
 
   return (
@@ -34,7 +64,14 @@ function App() {
         {tasks.map((task, index) => {
           return (
             <div className="flex" key={index}>
-              <li>{task}</li>
+              <input
+                type="checkbox"
+                id="check"
+                name="check"
+                defaultChecked={task.status === "finished"}
+                onClick={() => toggleStatus(task.id)}
+              />
+              <li>{task.input}</li>
               <button onClick={() => removeTask(index)}>remove</button>
             </div>
           );
