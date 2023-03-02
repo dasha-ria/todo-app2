@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import "./index.css";
+// import trash from "./assets/trash.svg";
+import trash1 from "./assets/trash-02.svg";
 
 function App() {
   const [tasks, setTasks] = useState(() => {
@@ -23,8 +25,8 @@ function App() {
     setInput("");
   };
 
-  const removeTask = (index) => {
-    const newList = tasks.filter((_, taskIndex) => taskIndex !== index);
+  const removeTask = (id) => {
+    const newList = tasks.filter((task) => task.id !== id);
     setTasks(newList);
   };
 
@@ -47,36 +49,55 @@ function App() {
     console.log(newStatus);
   };
 
-  return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="todo"
-          id="todo"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-        ></input>
-        <button type="submit">Add</button>
-      </form>
+  const [hideFinished, setHideFinished] = useState(true);
+  const showTasks = tasks.filter((task) => {
+    if (hideFinished && task.status === "finished") {
+      return false;
+    } else {
+      return true;
+    }
+  });
 
-      <ul>
-        {tasks.map((task, index) => {
-          return (
-            <div className="flex" key={index}>
-              <input
-                type="checkbox"
-                id="check"
-                name="check"
-                defaultChecked={task.status === "finished"}
-                onClick={() => toggleStatus(task.id)}
-              />
-              <li>{task.input}</li>
-              <button onClick={() => removeTask(index)}>remove</button>
-            </div>
-          );
-        })}
-      </ul>
+  return (
+    <div className="bg">
+      <div className="form-wrap">
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="todo"
+            id="todo"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+          ></input>
+          <button type="submit">Add</button>
+        </form>
+
+        <button onClick={() => setHideFinished(!hideFinished)}>
+          {hideFinished ? "Show finished tasks" : "Hide finished tasks"}
+        </button>
+
+        <ul>
+          {showTasks.map((task) => {
+            return (
+              <div className="bg-tasks" key={task.id}>
+                <div className="flex">
+                  <input
+                    type="checkbox"
+                    id="check"
+                    name="check"
+                    defaultChecked={task.status === "finished"}
+                    onClick={() => toggleStatus(task.id)}
+                  />
+                  <li>{task.input}</li>
+                  <button className="trash" onClick={() => removeTask(task.id)}>
+                    <img className="trash-pic" src={trash1}></img>
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </ul>
+      </div>
     </div>
   );
 }

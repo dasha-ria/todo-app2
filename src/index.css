@@ -1,9 +1,78 @@
+
+* {
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+  background-color: black;
+}
+
+.bg {
+    display: flex;
+    justify-content: center;
+    margin-top: 5rem;
+}
+
+.form-wrap {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background-color: #1f2123;
+    width: 65vw;
+    height: 75vw;
+    padding-top: 4rem;
+    border-radius: 1rem;
+}
+
 .flex {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   width: 20rem;
+}
+
+
+.bg-tasks {
+  background-color: #1f2123;
+  border:1px solid #3F4345;
+  border-radius: 0.3rem;
+  width: 25rem;
+  padding-left: 0.5rem;
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
 }
 
 ul {
   list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
+
+li {
+  color: #ced0d2;
+  font-size: 0.8rem;
+}
+
+input[type="checkbox"] {
+    
+}
+
+input[type="checkbox"] {
+  accent-color: black;
+}
+
+.trash { 
+    border: none;
+    cursor: pointer;
+    background: none;
+}
+
+.trash-pic {
+    width: 1.2rem;
+    height: 1.2rem;
+}
+
+/*padding-left: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
